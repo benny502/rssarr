@@ -47,11 +47,11 @@
   "devDependencies": {
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "react-scripts": "^4.0.3",
-    "pkg": "^5.5.1"
+    "pkg": "^5.5.1",
+    "react-scripts": "^5.0.0"
   },
   "resolutions": {
-    "react-admin/@material-ui/core": "^4.11.4"
+    "react-admin/@material-ui/core": "^4.12.1"
   },
   "browserslist": {
     "production": [

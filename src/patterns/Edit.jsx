@@ -1,5 +1,5 @@
 import { Button, Grid, InputAdornment } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/styles';
 import axios from "axios";
 import clsx from "clsx";
 import * as _ from "lodash";
