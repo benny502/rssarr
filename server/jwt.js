@@ -4,7 +4,7 @@ const fs = require('fs');
 const pubKey = fs.readFileSync('data/jwt.key.pub');
 const privKey = fs.readFileSync('data/jwt.key');
 
-const expressJWT = require('express-jwt');
+const { expressjwt: expressJWT } = require('express-jwt');
 const jwt = require('jsonwebtoken');
 
 server.post('/auth/login', (req, res) => {

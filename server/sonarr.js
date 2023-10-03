@@ -11,7 +11,7 @@ server.use(
     pathRewrite(path, req) {
       const url = new URL(req.url, `http://${req.headers.host}`);
       url.searchParams.append("apikey", process.env.SONARR_API_KEY);
-      url.pathname = url.pathname.replace(/^\/sonarr/, "/api");
+      url.pathname = url.pathname.replace(/^\/sonarr/, "/api/v3");
       return `${url.pathname}${url.search}`;
     },
     changeOrigin: true,

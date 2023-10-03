@@ -12,18 +12,23 @@ import {
   SimpleForm,
   TextInput,
   useNotify,
+  useRecordContext,
 } from "react-admin";
-import { useForm, useFormState } from "react-final-form";
+// import { useForm, useFormState } from "react-final-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import useSWR from "swr";
 import { useClipboard } from "use-clipboard-copy";
 import Aside from "./Aside";
 import { BusProvider, useBus } from "./Bus";
 
 const EscapeButton = () => {
-  const form = useForm();
-  const formState = useFormState();
-  const escape = () =>
-    form.change("pattern", _.escapeRegExp(formState.values.pattern));
+  // const form = useForm();
+  // const formState = useFormState();
+  const { setValue } = useFormContext();
+  const pattern = useWatch({ name: "pattern" });
+  // const escape = () =>
+  //   form.change("pattern", _.escapeRegExp(formState.values.pattern));
+  const escape = () => setValue("pattern", _.escapeRegExp(pattern));
   return (
     <InputAdornment position="end">
       <Button color="primary" onClick={escape}>
@@ -70,7 +75,10 @@ const useStylesSeasonChoice = makeStyles({
   unmonitored: {},
 });
 
-const SeasonChoice = ({ record: { monitored, seasonNumber } }) => {
+// const SeasonChoice = ({ record: { monitored, seasonNumber } }) => {
+const SeasonChoice = () => {
+  const record = useRecordContext();
+  const { monitored, seasonNumber } = record;
   const styles = useStylesSeasonChoice();
   return (
     <div>
@@ -85,8 +93,9 @@ const SeasonChoice = ({ record: { monitored, seasonNumber } }) => {
 };
 
 const SeasonsInput = ({ series }) => {
-  const state = useFormState();
-  const seriesTitle = state.values?.series;
+  // const state = useFormState();
+  // const seriesTitle = state.values?.series;
+  const seriesTitle = useWatch({ name: "series", defaultValue: "" });
   const seasonChoices = useMemo(
     () =>
       series
@@ -97,7 +106,7 @@ const SeasonsInput = ({ series }) => {
           monitored,
         })),
     [series, seriesTitle]
-  );
+  ) ?? [];
 
   return (
     <SelectInput
@@ -124,8 +133,9 @@ const RefreshButton = () => {
 
 const ProxyButton = () => {
   const clipboard = useClipboard();
-  const state = useFormState();
-  const remote = state.values?.remote ?? "";
+  // const state = useFormState();
+  // const remote = state.values?.remote ?? "";
+  const remote = useWatch({ name: "remote", defaultValue: "" });
   const notify = useNotify();
 
   return (
@@ -150,8 +160,9 @@ const ProxyButton = () => {
 };
 
 const RemoteInput = () => {
-  const state = useFormState();
-  const remote = state.values?.remote ?? "";
+  // const state = useFormState();
+  // const remote = state.values?.remote ?? "";
+  const remote = useWatch({ name: "remote", defaultValue: "" });
   const bus = useBus();
   const onFetch = useMemo(
     () =>
@@ -184,13 +195,15 @@ const RemoteInput = () => {
 const PatternInput = () => {
   const clipboard = useClipboard();
   const notify = useNotify();
-  const form = useForm();
+  // const form = useForm();
+  const { setValue } = useFormContext();
 
   const bus = useBus();
   useEffect(() => {
     if (!bus) return;
     const listener = (title) => {
-      form.change("pattern", _.escapeRegExp(title));
+      // form.change("pattern", _.escapeRegExp(title));
+      setValue("pattern", _.escapeRegExp(title));
       notify("Replaced pattern with selected item");
     };
     bus.on("item", listener);
@@ -199,8 +212,9 @@ const PatternInput = () => {
     };
   }, [bus]);
 
-  const state = useFormState();
-  const pattern = state.values?.pattern ?? "";
+  // const state = useFormState();
+  // const pattern = state.values?.pattern ?? "";
+  const pattern = useWatch({ name: "pattern", defaultValue: "" });
   useEffect(() => {
     bus?.setField("pattern", pattern);
   }, [pattern, bus]);
@@ -226,7 +240,7 @@ const PatternInput = () => {
           </>
         ),
       }}
-      onBlur
+      // onBlur
     />
   );
 };
@@ -279,7 +293,7 @@ const PatternCreate = (props) => {
   return (
     <BusProvider>
       <Create {...props} aside={<Aside />}>
-        <SimpleForm initialValues={patternDefaultValue}>
+        <SimpleForm defaultValues={patternDefaultValue}>
           <TextInput disabled source="id" />
           <RemoteInput />
           <PatternInput />
