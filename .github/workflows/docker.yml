@@ -34,4 +34,4 @@ jobs:
           push: true
           tags: |
             izumiko/mikanarr:latest
-            izumiko/mikanarr:${{ github.ref }}
+            izumiko/mikanarr:${{ github.ref_name }}
