@@ -4,7 +4,6 @@
   "private": "true",
   "description": "Mikanarr, bridge between Mikan Anime and Sonarr",
   "main": "server/index.js",
-  "bin": "server/index.js",
   "scripts": {
     "start": "dotenv node server/index.js",
     "dev": "run-p dev:server dev:web",
@@ -12,7 +11,7 @@
     "dev:web": "dotenv -- react-scripts start",
     "build": "npm-run-all build:*",
     "build:web": "react-scripts build",
-    "build:server": "pkg ."
+    "build:server": "ncc build server/index.js -m -o bundled && pkg --out-path dist bundled"
   },
   "keywords": [],
   "author": "",
@@ -45,20 +44,11 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@vercel/ncc": "^0.38.0",
     "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5",
     "pkg": "^5.8.1",
     "react-scripts": "^5.0.1"
-  },
-  "pkg": {
-    "assets": [
-      "node_modules/axios/**"
-    ],
-    "targets": [
-      "latest-linux-x64",
-      "latest-alpine-x64"
-    ],
-    "outputPath": "dist"
   },
   "resolutions": {},
   "browserslist": {

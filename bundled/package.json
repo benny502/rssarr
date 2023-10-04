@@ -1,0 +1,16 @@
+{
+    "name": "mikanarr",
+    "license": "MIT",
+    "bin": "index.js",
+    "pkg": {
+      "assets": [
+        "public/**/*",
+        "./*.html",
+        "./*.css"
+      ],
+      "targets": [
+        "latest-linux",
+        "latest-alpine"
+      ]
+    }
+  }
