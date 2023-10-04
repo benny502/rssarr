@@ -11,7 +11,8 @@
     "dev:web": "dotenv -- react-scripts start",
     "build": "npm-run-all build:*",
     "build:web": "react-scripts build",
-    "build:server": "ncc build server/index.js -m -o bundled && pkg --out-path dist bundled"
+    "build:bundle": "ncc build server/index.js -m -o bundled",
+    "build:server": "pkg --out-path dist bundled"
   },
   "keywords": [],
   "author": "",

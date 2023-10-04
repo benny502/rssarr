@@ -1,20 +1,21 @@
-FROM node:18 AS builder
-WORKDIR /
+FROM node:lts-alpine AS builder
+WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
 COPY public ./public
 COPY server ./server
 COPY src ./src
+COPY bundled ./bundled
 RUN yarn --frozen-lockfile --network-timeout 500000
-RUN yarn build
-RUN chmod 755 ./dist/mikanarr-*
+RUN yarn build:web && yarn build:bundle && rm ./bundled/package.json ./bundled/.gitignore
 
 FROM alpine:latest 
-RUN apk --no-cache add ca-certificates
-WORKDIR /
-COPY --from=builder /build ./build
-COPY --from=builder /dist/mikanarr-alpine ./mikanarr
+RUN apk --no-cache add ca-certificates nodejs
+WORKDIR /usr/src/app
+COPY --from=builder /app/bundled ./
+COPY --from=builder /app/build ./build
+# COPY app ./
 EXPOSE 12306
-VOLUME /data
-CMD ["./mikanarr"]
+VOLUME /usr/src/app/data
+CMD ["/usr/bin/node", "index.js"]

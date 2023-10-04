@@ -7,11 +7,55 @@ on:
       - '*'
 
 jobs:
-  main:
+  release:
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: |
+          yarn --frozen-lockfile --network-timeout 1000000
+      - name: Build
+        run: |
+          yarn build:web && yarn build:bundle
+          mv ./build ./bundled/ && mv ./bundled app && rm ./app/package.json ./app/.gitignore
+      - name: Upload files to Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: mikanarr-${{ github.ref_name }}
+          path: |
+            ./app
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.1
+        if: github.event_name == 'release'
+        with:
+          type: 'zip'
+          filename: "mikanarr-${{ github.ref_name }}.zip"
+          directory: ./app
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        if: github.event_name == 'release'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "./app/mikanarr-${{ github.ref_name }}.zip"
+          asset_name: mikanarr-${{ github.ref_name }}.zip
+          tag: ${{ github.ref }}
+
+  build-docker:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - uses: actions/download-artifact@v3
+        with:
+          name: mikanarr-${{ github.ref_name }}
+          path: ./app
       
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
@@ -24,6 +68,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: list dir
+        run: |
+          ls -la
+          ls -la ./app
 
       - name: Build and push
         uses: docker/build-push-action@v4
