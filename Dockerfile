@@ -6,7 +6,7 @@ COPY yarn.lock ./
 COPY public ./public
 COPY server ./server
 COPY src ./src
-RUN yarn --frozen-lockfile
+RUN yarn --frozen-lockfile --network-timeout 500000
 RUN yarn build
 RUN chmod 755 ./dist/mikanarr-*
 
