@@ -124,12 +124,12 @@ services:
   mikanarr:
     image: izumiko/mikanarr
     volumes:
-      - /path/on/host/data:/data
+      - /path/on/host/data:/usr/src/app/data
     environment:
       - PUID=1000
       - PGID=100
-    expose:
-      - 12306/tcp
+    ports:
+      - "12306:12306"
     restart: unless-stopped
 ```
 
