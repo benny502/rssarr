@@ -1,13 +1,13 @@
-const server = require('./server');
+import server from './server.js';
+import * as fs from 'fs';
+import { expressjwt } from 'express-jwt';
+import jwt from 'jsonwebtoken';
 
-const fs = require('fs');
 const pubKey = fs.readFileSync('data/jwt.key.pub');
 const privKey = fs.readFileSync('data/jwt.key');
 
-const { expressjwt: expressJWT } = require('express-jwt');
-const jwt = require('jsonwebtoken');
-
 server.post('/auth/login', (req, res) => {
+  console.log(req);
   const { username, password } = req.body;
   if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
     const token = jwt.sign({
@@ -25,7 +25,7 @@ server.post('/auth/login', (req, res) => {
 });
 
 const middlewares = [
-  expressJWT({
+  expressjwt({
     secret: pubKey,
     algorithms: ['RS512'],
   }),
@@ -36,4 +36,4 @@ const middlewares = [
   },
 ];
 
-module.exports = middlewares;
+export default middlewares;

@@ -1,18 +1,19 @@
-require('global-agent/bootstrap');
+import { bootstrap } from 'global-agent';
+import xml2js from 'xml2js';
+import axios from 'axios';
+import qs from 'qs';
+import db from './db.cjs';
+import server from './server.js';
 
-const xml2js = require("xml2js");
+bootstrap();
 const parser = new xml2js.Parser();
 const builder = new xml2js.Builder();
 
-const axios = require("axios");
-const qs = require("qs");
-
-const db = require('./db');
-
 const route = async (req, res) => {
   try {
+    const mikan_host = process.env.MIKANANIME_HOST.replace(/\/$/, "");
     const { data: xmlStr } = await axios.get(
-      `https://mikanani.me${req.path}?${qs.stringify(req.query)}`
+      `${mikan_host}${req.path}?${qs.stringify(req.query)}`
     );
     const result = await parser.parseStringPromise(xmlStr);
 
@@ -61,7 +62,5 @@ const route = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
-const server = require('./server');
 
 server.get("/RSS/*", route);

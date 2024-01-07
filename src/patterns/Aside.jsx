@@ -2,19 +2,16 @@ import {
   Card,
   CardContent,
   List,
-  ListItem,
+  ListItemButton,
   ListItemText,
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 import axios from "axios";
-// import _ from "lodash";
 import { useNotify } from "ra-core";
 import { useEffect, useMemo } from "react";
 import useSWR from "swr";
-import { useBus, useBusField } from "./Bus";
-import clsx from "clsx";
+import { useBus, useBusField } from "./Bus.jsx";
 
 const fetcher = async (url) => {
   // use a proxy to bypass CORS
@@ -23,12 +20,6 @@ const fetcher = async (url) => {
   );
   return data;
 };
-
-const useStyles = makeStyles((theme) => ({
-  matched: {
-    color: '#1976d2',
-  },
-}));
 
 const Aside = () => {
   const notify = useNotify();
@@ -70,8 +61,6 @@ const Aside = () => {
     }));
   }, [patternRegex, data]);
 
-  const styles = useStyles();
-
   return (
     <Card style={{ marginLeft: 20 }}>
       <CardContent style={{ height: "75vh", position: "relative" }}>
@@ -86,8 +75,7 @@ const Aside = () => {
           {matchedData.length > 0 ? (
             <List>
               {matchedData.map(({ title, matched }, i) => (
-                <ListItem
-                  button
+                <ListItemButton
                   key={i}
                   dense
                   disableGutters
@@ -98,11 +86,9 @@ const Aside = () => {
                 >
                   <ListItemText
                     primary={title}
-                    className={clsx({
-                      [styles.matched]: matched,
-                    })}
+                    sx={[ matched && { color: '#1976d2' } ]}
                   />
-                </ListItem>
+                </ListItemButton>
               ))}
             </List>
           ) : (

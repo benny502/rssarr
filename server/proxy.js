@@ -1,13 +1,12 @@
-const axios = require("axios");
+import axios from 'axios';
+import xml2js from 'xml2js';
+import server from './server.js';
 
-const xml2js = require("xml2js");
 const parser = new xml2js.Parser();
-
-const server = require('./server');
 
 server.get("/proxy", async (req, res) => {
   // proxy only requests to mikan anime to prevent attacks
-  if (!req?.query?.url?.startsWith("https://mikanani.me")) {
+  if (!req?.query?.url?.startsWith(process.env.MIKANANIME_HOST)) {
     res.status(403).send("Forbidden");
     return;
   }

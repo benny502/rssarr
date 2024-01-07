@@ -25,6 +25,7 @@ SONARR_API_KEY=aaaabbbbccccddddeeeeffff1145141919810
 SONARR_HOST=https://sonarr.yourdomain.com/
 ADMIN_USERNAME=mikanarr
 ADMIN_PASSWORD=your_admin_password
+MIKANANIME_HOST=https://mikanime.tv/
 ```
 
 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 用于登陆系统，未登陆无法访问。
