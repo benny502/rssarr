@@ -8,7 +8,7 @@ COPY server ./server
 COPY src ./src
 COPY bundled ./bundled
 RUN yarn --frozen-lockfile --network-timeout 500000
-RUN yarn build:web && yarn build:bundle && rm ./bundled/package.json ./bundled/.gitignore
+RUN yarn build:web && yarn build:bundle && rm ./bundled/.gitignore
 
 FROM alpine:latest 
 RUN apk --no-cache add ca-certificates nodejs
