@@ -1,8 +1,6 @@
 import { Button, Grid, InputAdornment } from "@mui/material";
-import { makeStyles } from '@mui/styles';
+import { styled } from "@mui/material/styles";
 import axios from "axios";
-import clsx from "clsx";
-import * as _ from "lodash";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AutocompleteInput,
@@ -14,7 +12,6 @@ import {
   useNotify,
   useRecordContext,
 } from "react-admin";
-// import { useForm, useFormState } from "react-final-form";
 import { useFormContext, useWatch } from "react-hook-form";
 import useSWR from "swr";
 import { useClipboard } from "use-clipboard-copy";
@@ -22,13 +19,9 @@ import Aside from "./Aside";
 import { BusProvider, useBus } from "./Bus";
 
 const EscapeButton = () => {
-  // const form = useForm();
-  // const formState = useFormState();
   const { setValue } = useFormContext();
   const pattern = useWatch({ name: "pattern" });
-  // const escape = () =>
-  //   form.change("pattern", _.escapeRegExp(formState.values.pattern));
-  const escape = () => setValue("pattern", _.escapeRegExp(pattern));
+  const escape = () => setValue("pattern", pattern.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&"));
   return (
     <InputAdornment position="end">
       <Button color="primary" onClick={escape}>
@@ -59,42 +52,28 @@ const useSeries = () => {
   return series;
 };
 
-const useStylesSeasonChoice = makeStyles({
-  monitoring: {
-    display: "inline-block",
-    verticalAlign: "middle",
-    width: 8,
-    height: 8,
-    borderRadius: "50%",
-    marginRight: 8,
-    backgroundColor: "green",
-    "&$unmonitored": {
-      backgroundColor: "red",
-    },
-  },
-  unmonitored: {},
+const SeasonChoiceDiv = styled('div')({
+  display: "inline-block",
+  verticalAlign: "middle",
+  width: 8,
+  height: 8,
+  borderRadius: "50%",
+  marginRight: 8,
+  backgroundColor: "red",
 });
 
-// const SeasonChoice = ({ record: { monitored, seasonNumber } }) => {
 const SeasonChoice = () => {
   const record = useRecordContext();
   const { monitored, seasonNumber } = record;
-  const styles = useStylesSeasonChoice();
   return (
     <div>
-      <div
-        className={clsx(styles.monitoring, {
-          [styles.unmonitored]: !monitored,
-        })}
-      />
+      <SeasonChoiceDiv sx={[ monitored && { backgroundColor: 'green' }]} />
       {`${seasonNumber}`.padStart(2, "0")}{" "}
     </div>
   );
 };
 
 const SeasonsInput = ({ series }) => {
-  // const state = useFormState();
-  // const seriesTitle = state.values?.series;
   const seriesTitle = useWatch({ name: "series", defaultValue: "" });
   const seasonChoices = useMemo(
     () =>
@@ -133,8 +112,6 @@ const RefreshButton = () => {
 
 const ProxyButton = () => {
   const clipboard = useClipboard();
-  // const state = useFormState();
-  // const remote = state.values?.remote ?? "";
   const remote = useWatch({ name: "remote", defaultValue: "" });
   const notify = useNotify();
 
@@ -146,7 +123,7 @@ const ProxyButton = () => {
           notify("No remote link to proxy");
         } else {
           const proxy = remote.replace(
-            "https://mikanani.me",
+            /https?:\/\/[^/]+/,
             `${location.protocol}//${location.host}`
           );
           clipboard.copy(proxy);
@@ -159,14 +136,25 @@ const ProxyButton = () => {
   );
 };
 
+function debounce(func, wait, immediate) {
+  let timeout;
+  return function() {
+  	const context = this, args = arguments;
+  	clearTimeout(timeout);
+  	if (immediate && !timeout) func.apply(context, args);
+  	timeout = setTimeout(function() {
+  		timeout = null;
+  		if (!immediate) func.apply(context, args);
+  	}, wait);
+  };
+}
+
 const RemoteInput = () => {
-  // const state = useFormState();
-  // const remote = state.values?.remote ?? "";
   const remote = useWatch({ name: "remote", defaultValue: "" });
   const bus = useBus();
   const onFetch = useMemo(
     () =>
-      _.debounce((remote) => {
+      debounce((remote) => {
         bus?.setField("url", remote);
       }, 1000),
     [bus]
@@ -195,15 +183,13 @@ const RemoteInput = () => {
 const PatternInput = () => {
   const clipboard = useClipboard();
   const notify = useNotify();
-  // const form = useForm();
   const { setValue } = useFormContext();
 
   const bus = useBus();
   useEffect(() => {
     if (!bus) return;
     const listener = (title) => {
-      // form.change("pattern", _.escapeRegExp(title));
-      setValue("pattern", _.escapeRegExp(title));
+      setValue("pattern", title.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&"));
       notify("Replaced pattern with selected item");
     };
     bus.on("item", listener);
@@ -212,8 +198,6 @@ const PatternInput = () => {
     };
   }, [bus]);
 
-  // const state = useFormState();
-  // const pattern = state.values?.pattern ?? "";
   const pattern = useWatch({ name: "pattern", defaultValue: "" });
   useEffect(() => {
     bus?.setField("pattern", pattern);

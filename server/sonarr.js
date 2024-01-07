@@ -1,7 +1,6 @@
-const server = require('./server');
-
-const { createProxyMiddleware } = require("http-proxy-middleware");
-const middlewares = require('./jwt');
+import server from './server.js';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import middlewares from './jwt.js';
 
 server.use(
   "/sonarr",

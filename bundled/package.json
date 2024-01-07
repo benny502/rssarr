@@ -2,6 +2,7 @@
     "name": "mikanarr",
     "license": "MIT",
     "bin": "index.js",
+    "type": "module",
     "pkg": {
       "assets": [
         "public/**/*",

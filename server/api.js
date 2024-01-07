@@ -1,8 +1,7 @@
-const db = require('./db');
-const jsonServer = require("json-server");
+import db from './db.cjs';
+import jsonServer from 'json-server';
+import server from './server.js';
+import middlewares from './jwt.js';
+
 const router = jsonServer.router(db);
-const server = require('./server');
-
-const middlewares = require('./jwt');
-
 server.use("/api", ...middlewares, router);

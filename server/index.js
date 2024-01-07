@@ -1,13 +1,13 @@
-require('dotenv').config({ path: './data/.env' })
-const server = require('./server');
-const express = require('express');
-server.use(express.json());
+import './env.js';
+import server from './server.js';
+import express from 'express';
+import './rss.js';
+import './proxy.js';
+import './sonarr.js';
+import './jwt.js';
+import './api.js';
 
-require('./rss');
-require('./proxy');
-require('./sonarr');
-require('./jwt');
-require('./api');
+server.use(express.json());
 
 const port = parseInt(process.env.PORT || "12306");
 server.listen(port, () => {
