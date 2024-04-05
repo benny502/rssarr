@@ -1,4 +1,4 @@
-import server from './server.js';
+import { srvRouter } from './server.js';
 import * as fs from 'fs';
 import { expressjwt } from 'express-jwt';
 import jwt from 'jsonwebtoken';
@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 const pubKey = fs.readFileSync('data/jwt.key.pub');
 const privKey = fs.readFileSync('data/jwt.key');
 
-server.post('/auth/login', (req, res) => {
+srvRouter.post('/auth/login', (req, res) => {
   console.log(req);
   const { username, password } = req.body;
   if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {

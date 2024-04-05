@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import axios from 'axios';
 import qs from 'qs';
 import db from './db.cjs';
-import server from './server.js';
+import { srvRouter } from './server.js';
 
 bootstrap();
 const parser = new xml2js.Parser();
@@ -63,4 +63,4 @@ const route = async (req, res) => {
   }
 };
 
-server.get("/RSS/*", route);
+srvRouter.get("/RSS/*", route);

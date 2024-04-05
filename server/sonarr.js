@@ -1,8 +1,8 @@
-import server from './server.js';
+import { srvRouter } from './server.js';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import middlewares from './jwt.js';
 
-server.use(
+srvRouter.use(
   "/sonarr",
   ...middlewares,
   createProxyMiddleware({

@@ -9,6 +9,6 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 
-const dataProvider = jsonServerProvider(new URL("/api", location.href).href, httpClient);
+const dataProvider = jsonServerProvider(new URL("api", location.href).href, httpClient);
 
 export default dataProvider;

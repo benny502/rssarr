@@ -32,7 +32,7 @@ const EscapeButton = () => {
 };
 
 const choicesFetcher = async (api) => {
-  const { data } = await axios(`/sonarr${api}`, {
+  const { data } = await axios(`sonarr${api}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

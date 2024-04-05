@@ -26,11 +26,14 @@ SONARR_HOST=https://sonarr.yourdomain.com/
 ADMIN_USERNAME=mikanarr
 ADMIN_PASSWORD=your_admin_password
 MIKANANIME_HOST=https://mikanime.tv/
+BASE_URL=/
 ```
 
 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 用于登陆系统，未登陆无法访问。
 
 `SONARR_HOST` 包含Base URL，如：sonarr中设置Base URL为`/sonarr`，则填写`https://sonarr.yourdomain.com/sonarr`。
+
+`BASE_URL` 用于反向代理，例如，设置为`/mikanarr`，则可以通过`http://localhost:12306/mikanarr`进入网页端。不设置则为默认值`/`。
 
 然后在data目录创建jwk key
 
@@ -140,11 +143,11 @@ services:
 
 ### 安全
 
-- `/RSS` 开头的路径会用于转换 RSS 推送。
-- `/proxy` 用于允许前端请求 Mikan Anime 的 RSS 推送地址，仅允许请求 `https://mikanani.me` 域名下的 URL 。
-- `/sonarr` 用于反代对 Sonarr API 的请求，避免客户端保存 API Key 。
-- `/api` 开头的路径用于访问和操作数据。
-- 其他地址会得到 `build/` 下的对应静态文件，未找到则会得到 `index.html` 。由于前端使用了 Hash Router ，所有前端 HTML 请求应当仅访问 `/` 路径。
+- `BASE_URL/RSS` 开头的路径会用于转换 RSS 推送。
+- `BASE_URL/proxy` 用于允许前端请求 Mikan Anime 的 RSS 推送地址，仅允许请求 `MIKANANIME_HOST` 域名下的 URL 。
+- `BASE_URL/sonarr` 用于反代对 Sonarr API 的请求，避免客户端保存 API Key 。
+- `BASE_URL/api` 开头的路径用于访问和操作数据。
+- 其他地址会得到 `build/` 下的对应静态文件，未找到则会得到 `index.html` 。由于前端使用了 Hash Router ，所有前端 HTML 请求应当仅访问 `BASE_URL` 路径。
 
 考虑到实现的简单性，我们并没有对服务器进行访问控制，你可以基于上面的描述自行添加访问控制，比如 [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) 。其中 `/RSS` 下的路径需要由 Sonarr 访问，无法使用 HTTP Auth ，且不会直接暴露用户数据，可以考虑不进行访问控制。
 

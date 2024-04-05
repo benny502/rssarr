@@ -8,6 +8,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
+  "homepage": "./",
   "scripts": {
     "start": "dotenv node server/index.js",
     "dev": "run-p dev:server dev:web",

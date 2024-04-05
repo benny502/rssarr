@@ -1,10 +1,10 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
-import server from './server.js';
+import { srvRouter } from './server.js';
 
 const parser = new xml2js.Parser();
 
-server.get("/proxy", async (req, res) => {
+srvRouter.get("/proxy", async (req, res) => {
   // proxy only requests to mikan anime to prevent attacks
   if (!req?.query?.url?.startsWith(process.env.MIKANANIME_HOST)) {
     res.status(403).send("Forbidden");

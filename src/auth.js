@@ -2,7 +2,7 @@ import axios from "axios";
 
 const authProvider = {
   login: async ({ username, password }) => {
-    const { data } = await axios.post('/auth/login', {
+    const { data } = await axios.post('auth/login', {
       username, password
     });
     localStorage.setItem('token', data.token);
