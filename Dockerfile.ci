@@ -1,0 +1,7 @@
+FROM alpine:latest 
+RUN apk --no-cache add ca-certificates nodejs
+WORKDIR /usr/src/app
+COPY app ./
+EXPOSE 12306
+VOLUME /usr/src/app/data
+CMD ["/usr/bin/node", "index.js"]
