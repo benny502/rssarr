@@ -30,6 +30,8 @@ MIKANANIME_HOST=https://mikanime.tv/
 
 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 用于登陆系统，未登陆无法访问。
 
+`SONARR_HOST` 包含Base URL，如：sonarr中设置Base URL为`/sonarr`，则填写`https://sonarr.yourdomain.com/sonarr`。
+
 然后在data目录创建jwk key
 
 ```bash
