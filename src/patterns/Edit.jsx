@@ -221,6 +221,15 @@ const PatternInput = () => {
             >
               Episode
             </Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                clipboard.copy("(?<subgroup>.*?)");
+                notify("SubGroup pattern copied");
+              }}
+            >
+              Group
+            </Button>
           </>
         ),
       }}

@@ -46,7 +46,13 @@ const route = async (req, res) => {
         const normalized = `${series} - S${season}E${episodeWithOffset} - ${language} - ${quality}`;
         const params = new URLSearchParams();
         params.append("url", enclosure[0].$.url);
-        params.append("name", normalized);
+        if (match?.groups?.subgroup) {
+          const { subgroup } = match.groups;
+          const fullNormalized = `[${subgroup}] ${normalized}`;
+          params.append("name", fullNormalized);
+        } else {
+          params.append("name", normalized);
+        }
         const newUrl = `${torrentProxy}?${params.toString()}`;
         items.push({
           title: [normalized],
