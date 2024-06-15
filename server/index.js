@@ -6,6 +6,7 @@ import './proxy.js';
 import './sonarr.js';
 import './jwt.js';
 import './api.js';
+import './qbittorrent.js';
 
 srvRouter.use(express.json());
 

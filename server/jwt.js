@@ -1,10 +1,8 @@
 import { srvRouter } from './server.js';
-import * as fs from 'fs';
 import { expressjwt } from 'express-jwt';
 import jwt from 'jsonwebtoken';
 
-const pubKey = fs.readFileSync('data/jwt.key.pub');
-const privKey = fs.readFileSync('data/jwt.key');
+const secret = process.env.JWT_SECRET ?? process.env.SONARR_API_KEY;
 
 srvRouter.post('/auth/login', (req, res) => {
   console.log(req);
@@ -12,8 +10,8 @@ srvRouter.post('/auth/login', (req, res) => {
   if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
     const token = jwt.sign({
       username,
-    }, privKey, {
-      algorithm: 'RS512',
+    }, secret, {
+      algorithm: 'HS512',
     });
     res.json({
       token
@@ -26,8 +24,8 @@ srvRouter.post('/auth/login', (req, res) => {
 
 const middlewares = [
   expressjwt({
-    secret: pubKey,
-    algorithms: ['RS512'],
+    secret: secret,
+    algorithms: ['HS512'],
   }),
   function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {

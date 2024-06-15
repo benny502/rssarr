@@ -17,6 +17,11 @@ const route = async (req, res) => {
     );
     const result = await parser.parseStringPromise(xmlStr);
 
+    // torrent proxy download url
+    let torrentProxy = req.protocol + "://" + req.get('Host') + process.env.BASE_URL;
+    if (torrentProxy.endsWith('/')) torrentProxy += 'torrent';
+    else torrentProxy += '/torrent';
+
     // pre-compile
     const database = db.get("patterns").value();
     const rules = database.map(({ pattern, ...rest }) => ({
@@ -39,10 +44,22 @@ const route = async (req, res) => {
         const episodeWithOffset =
           Number.parseInt(episode) + (Number.parseInt(offset) || 0);
         const normalized = `${series} - S${season}E${episodeWithOffset} - ${language} - ${quality}`;
+        const params = new URLSearchParams();
+        params.append("url", enclosure[0].$.url);
+        params.append("name", normalized);
+        const newUrl = `${torrentProxy}?${params.toString()}`;
         items.push({
           title: [normalized],
           pubDate,
-          enclosure,
+          enclosure: [
+            {
+              $: {
+                url: newUrl,
+                type: enclosure[0].$.type,
+                length: enclosure[0].$.length,
+              },
+            },
+          ],
           link,
           guid: [
             {

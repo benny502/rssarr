@@ -27,6 +27,10 @@ ADMIN_USERNAME=mikanarr
 ADMIN_PASSWORD=your_admin_password
 MIKANANIME_HOST=https://mikanime.tv/
 BASE_URL=/
+JWT_SECRET=A_VERY_LONG_SECRET
+QB_URL=http://qbittorrent:8080/
+QB_USER=admin
+QB_PASS=adminadmin
 ```
 
 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 用于登陆系统，未登陆无法访问。
@@ -35,12 +39,9 @@ BASE_URL=/
 
 `BASE_URL` 用于反向代理，例如，设置为`/mikanarr`，则可以通过`http://localhost:12306/mikanarr`进入网页端。不设置则为默认值`/`。
 
-然后在data目录创建jwk key
+对于`1.3.0+`版本，你需要提供一个足够长的随机字符串`JWT_SECRET`，用于生成JWT Token，而不用再生成jwt key。
 
-```bash
-ssh-keygen -t rsa -b 4096 -E SHA512 -m PEM -f jwt.key
-openssl rsa -in jwt.key -pubout -outform PEM -out jwt.key.pub
-```
+> 对于使用qBitTorrent的用户，你需要提供`QB_URL`、`QB_USER`、`QB_PASS`，用于重命名种子文件，以更好地让Sonarr导入多季的番剧文件。
 
 然后运行（需要 Node.js 环境）：
 
@@ -147,6 +148,7 @@ services:
 - `BASE_URL/proxy` 用于允许前端请求 Mikan Anime 的 RSS 推送地址，仅允许请求 `MIKANANIME_HOST` 域名下的 URL 。
 - `BASE_URL/sonarr` 用于反代对 Sonarr API 的请求，避免客户端保存 API Key 。
 - `BASE_URL/api` 开头的路径用于访问和操作数据。
+- `BASE_URL/torrent` 开头的路径用于下载种子文件并触发qBittorrent的种子重命名操作。
 - 其他地址会得到 `build/` 下的对应静态文件，未找到则会得到 `index.html` 。由于前端使用了 Hash Router ，所有前端 HTML 请求应当仅访问 `BASE_URL` 路径。
 
 考虑到实现的简单性，我们并没有对服务器进行访问控制，你可以基于上面的描述自行添加访问控制，比如 [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) 。其中 `/RSS` 下的路径需要由 Sonarr 访问，无法使用 HTTP Auth ，且不会直接暴露用户数据，可以考虑不进行访问控制。
@@ -168,7 +170,7 @@ build/   （构建得到）
 ```
 server/  
 data/   （数据文件）
-.env    （配置文件）
+data/.env    （配置文件）
 ```
 
 进行前端开发时，你可以使用 `yarn dev:web` ，它使用 `react-scripts dev` 在本地启动一个 Dev Server 。
