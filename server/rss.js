@@ -54,6 +54,7 @@ const route = async (req, res) => {
           params.append("name", normalized);
         }
         const newUrl = `${torrentProxy}?${params.toString()}`;
+        pubDate[0] = pubDate[0] + "+08:00"
         items.push({
           title: [normalized],
           pubDate,
