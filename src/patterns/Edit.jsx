@@ -122,10 +122,8 @@ const ProxyButton = () => {
         if (!remote) {
           notify("No remote link to proxy");
         } else {
-          const proxy = remote.replace(
-            /https?:\/\/[^/]+/,
-            `${location.protocol}//${location.host}`
-          );
+          const url = remote.replace(/https?:\/\//, '');
+          const proxy = `${location.protocol}//${location.host}${location.pathname}RSS/${url}`;
           clipboard.copy(proxy);
           notify("Proxied RSS link copied");
         }

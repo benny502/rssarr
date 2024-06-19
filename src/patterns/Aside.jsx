@@ -16,7 +16,12 @@ import { useBus, useBusField } from "./Bus.jsx";
 const fetcher = async (url) => {
   // use a proxy to bypass CORS
   const { data } = await axios.get(
-    new URL(`proxy?url=${encodeURIComponent(url)}`, location.href).href
+    new URL(`proxy?url=${encodeURIComponent(url)}`, location.href).href,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
   );
   return data;
 };

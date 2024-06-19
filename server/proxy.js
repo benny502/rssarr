@@ -1,15 +1,11 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
+import middlewares from './jwt.js';
 import { srvRouter } from './server.js';
 
 const parser = new xml2js.Parser();
 
-srvRouter.get("/proxy", async (req, res) => {
-  // proxy only requests to mikan anime to prevent attacks
-  if (!req?.query?.url?.startsWith(process.env.MIKANANIME_HOST)) {
-    res.status(403).send("Forbidden");
-    return;
-  }
+const proxy = async (req, res) => {
   try {
     const { data: xmlStr } = await axios.get(req.query.url);
     const result = await parser.parseStringPromise(xmlStr);
@@ -21,4 +17,6 @@ srvRouter.get("/proxy", async (req, res) => {
     console.error(e);
     res.status(500).send("Internal Server Error");
   }
-});
+};
+
+srvRouter.use("/proxy", ...middlewares, proxy);

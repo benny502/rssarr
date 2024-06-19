@@ -26,7 +26,7 @@ jobs:
       - name: Upload files to Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mikanarr-${{ github.ref_name }}
+          name: rssarr-${{ github.ref_name }}
           path: |
             ./app
       - name: Archive Release
@@ -34,15 +34,15 @@ jobs:
         if: github.event_name == 'release'
         with:
           type: 'zip'
-          filename: "mikanarr-${{ github.ref_name }}.zip"
+          filename: "rssarr-${{ github.ref_name }}.zip"
           directory: ./app
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: "./app/mikanarr-${{ github.ref_name }}.zip"
-          asset_name: mikanarr-${{ github.ref_name }}.zip
+          file: "./app/rssarr-${{ github.ref_name }}.zip"
+          asset_name: rssarr-${{ github.ref_name }}.zip
           tag: ${{ github.ref }}
 
   build-docker:
@@ -54,7 +54,7 @@ jobs:
       
       - uses: actions/download-artifact@v4
         with:
-          name: mikanarr-${{ github.ref_name }}
+          name: rssarr-${{ github.ref_name }}
           path: ./app
       
       - name: Setup QEMU
@@ -84,5 +84,5 @@ jobs:
           file: ./Dockerfile.ci
           push: true
           tags: |
-            izumiko/mikanarr:latest
-            izumiko/mikanarr:${{ github.ref_name }}
+            izumiko/rssarr:latest
+            izumiko/rssarr:${{ github.ref_name }}

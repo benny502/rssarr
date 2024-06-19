@@ -1,22 +1,20 @@
-# Mikanarr
+# Rssarr (原 Mikanarr)
 
-[![CircleCI](https://circleci.com/gh/std4453/mikanarr/tree/master.svg?style=svg)](https://circleci.com/gh/std4453/mikanarr/tree/master)
-
-*Mikanarr* 由 *Mikan Anime* 与 *Sonarr* 混合而成，负责打通两者之间的桥梁，作为自动下载动画的关键一步存在。
-
-关于整个媒体栈的详细信息，请参考 [我的博客](https://blog.std4453.com:444/nas-from-zero-media-part/) ，本文件仅阐述项目的使用方法。
+*Rssarr* 由 *RSS* 与 *Sonarr* 混合而成，负责打通两者之间的桥梁，作为自动下载动画的关键一步存在。
 
 ## 简介
 
-[Sonarr](https://sonarr.tv/) 基于 RSS 推送寻找符合需求的发布（*Release*）并下载，然而， [Mikan Anime](https://mikanani.me/) 的 RSS 推送格式与 Sonarr 接受的格式并不兼容，因此我们在前者的返回格式上进行变换，以符合后者的要求。
+[Sonarr](https://sonarr.tv/) 基于 RSS 推送寻找符合需求的发布（*Release*）并下载，然而， 动漫种子下载站的 RSS 推送格式与 Sonarr 接受的格式并不兼容，因此我们在前者的返回格式上进行变换，以符合后者的要求。
 
 此外， Sonarr 基于 RSS 推送项目的标题（*Title*）对项目对应的剧集、语言、制式进行识别，然而该识别算法并非完美，在标准化程度较差的日本动画中译领域尤甚，因此我们也对标题进行变换，以保证能够被 Sonarr 正确识别并抓取。
 
 该过程要求用户提供标题的模板格式以及对应的语言、制式信息，为了方便管理，我们提供了一套简单的前/后端系统用于操作。
 
+> 目前已测试：[蜜柑计划](https://mikanani.me/)，[萌番组](https://bangumi.moe/)，[Nyaa](https://nyaa.si/)，[动漫花园](https://share.dmhy.org/)，[ACG.RIP](https://acg.rip/)
+
 ## 使用
 
-首先你需要一个正常运行且可访问的 Sonarr 实例，并 [获取 API Key](https://github.com/Sonarr/Sonarr/wiki/API) 。
+首先你需要一个正常运行且可访问的 Sonarr 实例，并 [获取 API Key](https://wiki.servarr.com/en/sonarr/settings#security) 。
 
 接着，创建并填写 `.env` 文件，如：
 
@@ -25,7 +23,6 @@ SONARR_API_KEY=aaaabbbbccccddddeeeeffff1145141919810
 SONARR_HOST=https://sonarr.yourdomain.com/
 ADMIN_USERNAME=mikanarr
 ADMIN_PASSWORD=your_admin_password
-MIKANANIME_HOST=https://mikanime.tv/
 BASE_URL=/
 JWT_SECRET=A_VERY_LONG_SECRET
 QB_URL=http://qbittorrent:8080/
@@ -52,9 +49,9 @@ $ yarn start
 
 将会在 `12306` 端口运行服务器。
 
-此时，可以访问 `http://localhost:12306` 进入 Mikanarr 网页端：
+此时，可以访问 `http://localhost:12306` 进入 Rssarr 网页端：
 
-![Mikanarr 网页端截图](images/screenshot1.png)
+![Rssarr 网页端截图](images/screenshot1.png)
 
 在网页中，你可以搜索、排序、添加、删除、编辑条目，主要需要填写的字段包括：
 
@@ -68,7 +65,7 @@ $ yarn start
 
 在创建和编辑页面中，侧边栏会自动根据 *Remote* 字段中的地址获取 RSS 推送中的项目，并高亮显示与模板所匹配的项目：
 
-![Mikanarr 网页端截图](images/screenshot2.png)
+![Rssarr 网页端截图](images/screenshot2.png)
 
 注意， `Pattern` 的内容为 **正则表达式** ，而种子标题中常见的 `[]` 为正则表达式中的特殊字符，需要进行转义处理，你可以点击输入框后的 ESCAPE 按钮快速转义输入框中的内容，或点击 EPISODE 按钮快速复制剧集的命名捕获组。
 
@@ -98,7 +95,7 @@ $ yarn start
 
 ---
 
-为了获取变换后的的 RSS 推送，你可以将 Mikan Anime 的域名部分（`mikanani.me`）直接替换为 Mikanarr 部署的域名，比如从：
+为了获取变换后的的 RSS 推送，你可以将原RSS推送地址去掉开头的`https://`，然后拼接到 Rssarr 的地址后面，如：
 
 ```
 https://mikanani.me/RSS/MyBangumi?token=<你的个人Token>
@@ -107,7 +104,7 @@ https://mikanani.me/RSS/MyBangumi?token=<你的个人Token>
 得到：
 
 ```
-https://<Mikanarr域名>/RSS/MyBangumi?token=<你的个人Token>
+https://<Rssarr域名>/RSS/mikanani.me/RSS/MyBangumi?token=<你的个人Token>
 ```
 
 将这一地址添加到 Sonarr 中，就能让他自动抓取你想要的剧集了，酷吧？
@@ -118,7 +115,7 @@ https://<Mikanarr域名>/RSS/MyBangumi?token=<你的个人Token>
 
 ### 部署
 
-你可以使用 [Docker](https://www.docker.com/) 进行部署，我们的 Docker Image 在 [`izumiko/mikanarr`](https://hub.docker.com/r/izumiko/mikanarr) 。
+你可以使用 [Docker](https://www.docker.com/) 进行部署，我们的 Docker Image 在 [`izumiko/rssarr`](https://hub.docker.com/r/izumiko/rssarr) 。
 
 构建得到的镜像不包含 `.env` 文件，你需要把它放入下面的 `data/` 文件夹。
 
@@ -130,8 +127,8 @@ https://<Mikanarr域名>/RSS/MyBangumi?token=<你的个人Token>
 version: "3"
 
 services:
-  mikanarr:
-    image: izumiko/mikanarr
+  rssarr:
+    image: izumiko/rssarr
     volumes:
       - /path/on/host/data:/usr/src/app/data
     environment:
@@ -184,5 +181,7 @@ data/.env    （配置文件）
 构建完成之后后端服务器会直接 serve 前端代码，届时只需要 `yarn start` 启动一份。
 
 ## 作者
+
+Izumiko - [icst@tuta.io](mailto:icst@tuta.io)
 
 张海川 - Haichuan Zhang - [me@std4453.com](mailto:me@std4453.com) - [Homepage](https://blog.std4453.com:444)
