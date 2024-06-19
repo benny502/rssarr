@@ -1,8 +1,8 @@
 {
-  "name": "mikanarr",
-  "version": "1.3.2",
+  "name": "rssarr",
+  "version": "2.0.0",
   "private": "true",
-  "description": "Mikanarr, bridge between Mikan Anime and Sonarr",
+  "description": "Rssarr, bridge between Anime RSS and Sonarr",
   "type": "module",
   "exports": "./server/index.js",
   "engines": {
@@ -16,8 +16,7 @@
     "dev:web": "dotenv -- react-scripts start",
     "build": "npm-run-all build:*",
     "build:web": "react-scripts build",
-    "build:bundle": "ncc build server/index.js -m -o bundled",
-    "build:server": "pkg --out-path dist bundled"
+    "build:bundle": "ncc build server/index.js -m -o bundled"
   },
   "keywords": [],
   "author": "",
@@ -41,7 +40,7 @@
     "react": "^18.3.1",
     "react-admin": "^4.16.18",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.51.4",
+    "react-hook-form": "^7.52.0",
     "swr": "^2.2.4",
     "use-clipboard-copy": "^0.2.0",
     "xml2js": "^0.6.2"
@@ -51,7 +50,6 @@
     "@vercel/ncc": "^0.38.1",
     "nodemon": "^3.1.3",
     "npm-run-all": "^4.1.5",
-    "pkg": "^5.8.1",
     "react-scripts": "^5.0.1"
   },
   "resolutions": {},
