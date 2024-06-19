@@ -29,6 +29,11 @@ QB_URL=http://qbittorrent:8080/
 QB_USER=admin
 QB_PASS=adminadmin
 ```
+>(可选)
+```env
+HTTPS_PROXY=http://127.0.0.1:8080
+HTTP_PROXY=http://127.0.0.1:8080
+```
 
 `ADMIN_USERNAME` 和 `ADMIN_PASSWORD` 用于登陆系统，未登陆无法访问。
 
@@ -39,6 +44,8 @@ QB_PASS=adminadmin
 对于`1.3.0+`版本，你需要提供一个足够长的随机字符串`JWT_SECRET`，用于生成JWT Token，而不用再生成jwt key。
 
 > 对于使用qBitTorrent的用户，你需要提供`QB_URL`、`QB_USER`、`QB_PASS`，用于重命名种子文件，以更好地让Sonarr导入多季的番剧文件。
+
+若使用的RSS地址需要代理访问，可在`.env`中设置`HTTPS_PROXY`和`HTTP_PROXY`。
 
 然后运行（需要 Node.js 环境）：
 
