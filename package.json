@@ -36,9 +36,9 @@
     "lowdb": "^1.0.0",
     "parse-torrent": "^11.0.16",
     "qs": "^6.12.1",
-    "ra-data-json-server": "^4.16.17",
+    "ra-data-json-server": "^5.0.1",
     "react": "^18.3.1",
-    "react-admin": "^4.16.18",
+    "react-admin": "^5.0.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
     "swr": "^2.2.4",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@vercel/ncc": "^0.38.1",
-    "nodemon": "^3.1.3",
+    "nodemon": "^3.1.4",
     "npm-run-all": "^4.1.5",
     "react-scripts": "^5.0.1"
   },

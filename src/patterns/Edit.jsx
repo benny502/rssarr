@@ -231,7 +231,7 @@ const PatternInput = () => {
           </>
         ),
       }}
-      // onBlur
+      onBlur
     />
   );
 };
@@ -266,6 +266,7 @@ const PatternEdit = (props) => {
 };
 
 const patternDefaultValue = () => ({
+  offset: 0,
   language: "Chinese",
   quality: "WEBDL 1080p",
 });
