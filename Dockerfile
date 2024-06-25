@@ -14,4 +14,4 @@ WORKDIR /usr/src/app
 COPY --from=builder /app/dist ./
 EXPOSE 12306
 VOLUME /usr/src/app/data
-CMD ["/usr/bin/node", "index.js"]
+CMD ["/usr/bin/node", "index.mjs"]

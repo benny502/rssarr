@@ -16,7 +16,7 @@
     "dev:web": "vite",
     "build": "npm-run-all build:*",
     "build:web": "vite build --outDir dist/public",
-    "build:server": "bun build server/index.js --target=node --minify --outdir=dist",
+    "build:server": "bun build server/index.js --target=node --minify --outfile=dist/index.mjs --define \"__dirname=.\" && cp node_modules/errorhandler/public/* dist/public/",
     "preview": "vite preview"
   },
   "keywords": [],
