@@ -15,14 +15,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
       
       - name: Install dependencies
         run: |
-          yarn --frozen-lockfile --network-timeout 1000000
+          bun install --frozen-lockfile
       - name: Build
         run: |
-          yarn build:web && yarn build:bundle
-          mv ./build ./bundled/ && mv ./bundled app && rm ./app/.gitignore
+          bun run build:web && bun run build:server
+          mv ./dist app
       - name: Upload files to Artifacts
         uses: actions/upload-artifact@v4
         with:

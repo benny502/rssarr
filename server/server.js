@@ -3,7 +3,7 @@ import { Router } from "express";
 const server = jsonServer.create();
 const srvRouter = Router();
 const middlewares = jsonServer.defaults({
-  static: "./build",
+  static: "./public",
 });
 srvRouter.use(middlewares);
 srvRouter.use(jsonServer.bodyParser);
