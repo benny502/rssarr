@@ -31,6 +31,7 @@ const route = async (req, res) => {
       pattern: new RegExp(`^${pattern}$`),
       ...rest,
     }));
+    const releaseGroup = /^[\[【](?<subgroup>[^\]】]+?)[\]】].*$/;
 
     // trackers for magnet
     const trackers = new URLSearchParams();
@@ -54,7 +55,8 @@ const route = async (req, res) => {
         const { episode } = match.groups;
         const episodeWithOffset =
           Number.parseInt(episode) + (Number.parseInt(offset) || 0);
-        const normalized = `${series} - S${season}E${episodeWithOffset} - ${language} - ${quality}`;
+        const epWithPadding = episodeWithOffset.toString().padStart(2, "0");
+        const normalized = `${series} - S${season}E${epWithPadding} - ${language} - ${quality}`;
         let newUrl;
         if (isMagnet) {
           const trackersStr = trackers.toString();
@@ -69,7 +71,14 @@ const route = async (req, res) => {
             const fullNormalized = `[${subgroup}] ${normalized}`;
             params.append("name", fullNormalized);
           } else {
-            params.append("name", normalized);
+            const res = title.match(releaseGroup);
+            if (res?.groups?.subgroup) {
+              const { subgroup } = res.groups;
+              const fullNormalized = `[${subgroup}] ${normalized}`;
+              params.append("name", fullNormalized);
+            } else {
+              params.append("name", normalized);
+            }
           }
           newUrl = `${torrentProxy}?${params.toString()}`;
         }
