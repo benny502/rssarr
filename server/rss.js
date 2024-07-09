@@ -21,7 +21,9 @@ const route = async (req, res) => {
     const isMikan = host.includes('mikan');
 
     // torrent proxy download url
-    let torrentProxy = req.protocol + "://" + req.get('Host') + process.env.BASE_URL;
+    const proto = req.headers['x-forwarded-proto'] || req.protocol;
+    const proxyhost = req.headers['x-forwarded-host'] || req.get('Host');
+    let torrentProxy = proto + "://" + proxyhost + process.env.BASE_URL;
     if (torrentProxy.endsWith('/')) torrentProxy += 'torrent';
     else torrentProxy += '/torrent';
 
