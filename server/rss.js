@@ -58,7 +58,18 @@ const route = async (req, res) => {
         const episodeWithOffset =
           Number.parseInt(episode) + (Number.parseInt(offset) || 0);
         const epWithPadding = episodeWithOffset.toString().padStart(2, "0");
-        const normalized = `${series} - S${season}E${epWithPadding} - ${language} - ${quality}`;
+        let group = '';
+        if (match?.groups?.subgroup) {
+          const { subgroup } = match.groups;
+          group = `[${subgroup}] `;
+        } else {
+          const res = title.match(releaseGroup);
+          if (res?.groups?.subgroup) {
+            const { subgroup } = res.groups;
+            group = `[${subgroup}] `;
+          }
+        }
+        const normalized = `${group}${series} - S${season}E${epWithPadding} - ${language} - ${quality}`;
         let newUrl;
         if (isMagnet) {
           const trackersStr = trackers.toString();
@@ -68,20 +79,7 @@ const route = async (req, res) => {
         } else {
           const params = new URLSearchParams();
           params.append("url", enclosure[0].$.url);
-          if (match?.groups?.subgroup) {
-            const { subgroup } = match.groups;
-            const fullNormalized = `[${subgroup}] ${normalized}`;
-            params.append("name", fullNormalized);
-          } else {
-            const res = title.match(releaseGroup);
-            if (res?.groups?.subgroup) {
-              const { subgroup } = res.groups;
-              const fullNormalized = `[${subgroup}] ${normalized}`;
-              params.append("name", fullNormalized);
-            } else {
-              params.append("name", normalized);
-            }
-          }
+          params.append("name", normalized);
           newUrl = `${torrentProxy}?${params.toString()}`;
         }
         if (isMikan) {
