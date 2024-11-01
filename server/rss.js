@@ -108,6 +108,27 @@ const route = async (req, res) => {
         break;
       }
     }
+    // if items is empty, add placeholder to keep rss valid
+    if (!items.length) items.push({
+      title: ["Placeholder"],
+      pubDate: [new Date().toISOString()],
+      enclosure: [
+        {
+          $: {
+            url: "https://placeholder.com",
+            type: "application/x-bittorrent",
+            length: 0,
+          },
+        },
+      ],
+      link: ["https://placeholder.com"],
+      guid: [
+        {
+          $: { isPermaLink: true },
+          _: "https://placeholder.com",
+        },
+      ],
+    });
     result.rss.channel[0].item = items;
     res.set("Content-Type", "text/xml");
     res.send(builder.buildObject(result));
