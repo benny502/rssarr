@@ -571,11 +571,6 @@
   "resolved" "https://registry.yarnpkg.com/@remix-run/router/-/router-1.20.0.tgz"
   "version" "1.20.0"
 
-"@rollup/rollup-darwin-arm64@4.24.3":
-  "integrity" "sha512-QPW2YmkWLlvqmOa2OwrfqLJqkHm7kJCIMq9kOz40Zo9Ipi40kf9ONG5Sz76zszrmIZZ4hgRIkez69YnTHgEz1w=="
-  "resolved" "https://registry.yarnpkg.com/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.24.3.tgz"
-  "version" "4.24.3"
-
 "@tanstack/query-core@5.59.16":
   "integrity" "sha512-crHn+G3ltqb5JG0oUv6q+PMz1m1YkjpASrXTU+sYWW9pLk0t2GybUHNRqYPZWhxgjPaVGC4yp92gSFEJgYEsPw=="
   "resolved" "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.59.16.tgz"
@@ -3119,50 +3114,14 @@
     "semver-compare" "^1.0.0"
     "sprintf-js" "^1.1.2"
 
-"rollup@^4.20.0":
-  "integrity" "sha512-HBW896xR5HGmoksbi3JBDtmVzWiPAYqp7wip50hjQ67JbDz61nyoMPdqu1DvVW9asYb2M65Z20ZHsyJCMqMyDg=="
-  "resolved" "https://registry.yarnpkg.com/rollup/-/rollup-4.24.3.tgz"
-  "version" "4.24.3"
+"rollup@^4.20.0", "rollup@npm:@rollup/wasm-node@^4.33.0":
+  "integrity" "sha512-+lN8XHBdka9vIq0Hdsn1NLjdRYQXG1eoFCQws8K7KXPfw2jE0j1c3rSAi50pVrk9ykVPDJHoPq79twHOA5RvGg=="
+  "resolved" "https://registry.npmmirror.com/@rollup/wasm-node/-/wasm-node-4.34.2.tgz"
+  "version" "4.34.2"
   dependencies:
-    "@rollup/rollup-android-arm-eabi" "4.24.3"
-    "@rollup/rollup-android-arm64" "4.24.3"
-    "@rollup/rollup-darwin-arm64" "4.24.3"
-    "@rollup/rollup-darwin-x64" "4.24.3"
-    "@rollup/rollup-freebsd-arm64" "4.24.3"
-    "@rollup/rollup-freebsd-x64" "4.24.3"
-    "@rollup/rollup-linux-arm-gnueabihf" "4.24.3"
-    "@rollup/rollup-linux-arm-musleabihf" "4.24.3"
-    "@rollup/rollup-linux-arm64-gnu" "4.24.3"
-    "@rollup/rollup-linux-arm64-musl" "4.24.3"
-    "@rollup/rollup-linux-powerpc64le-gnu" "4.24.3"
-    "@rollup/rollup-linux-riscv64-gnu" "4.24.3"
-    "@rollup/rollup-linux-s390x-gnu" "4.24.3"
-    "@rollup/rollup-linux-x64-gnu" "4.24.3"
-    "@rollup/rollup-linux-x64-musl" "4.24.3"
-    "@rollup/rollup-win32-arm64-msvc" "4.24.3"
-    "@rollup/rollup-win32-ia32-msvc" "4.24.3"
-    "@rollup/rollup-win32-x64-msvc" "4.24.3"
     "@types/estree" "1.0.6"
     "fsevents" "~2.3.2"
   optionalDependencies:
-    "@rollup/rollup-android-arm-eabi" "4.24.3"
-    "@rollup/rollup-android-arm64" "4.24.3"
-    "@rollup/rollup-darwin-arm64" "4.24.3"
-    "@rollup/rollup-darwin-x64" "4.24.3"
-    "@rollup/rollup-freebsd-arm64" "4.24.3"
-    "@rollup/rollup-freebsd-x64" "4.24.3"
-    "@rollup/rollup-linux-arm-gnueabihf" "4.24.3"
-    "@rollup/rollup-linux-arm-musleabihf" "4.24.3"
-    "@rollup/rollup-linux-arm64-gnu" "4.24.3"
-    "@rollup/rollup-linux-arm64-musl" "4.24.3"
-    "@rollup/rollup-linux-powerpc64le-gnu" "4.24.3"
-    "@rollup/rollup-linux-riscv64-gnu" "4.24.3"
-    "@rollup/rollup-linux-s390x-gnu" "4.24.3"
-    "@rollup/rollup-linux-x64-gnu" "4.24.3"
-    "@rollup/rollup-linux-x64-musl" "4.24.3"
-    "@rollup/rollup-win32-arm64-msvc" "4.24.3"
-    "@rollup/rollup-win32-ia32-msvc" "4.24.3"
-    "@rollup/rollup-win32-x64-msvc" "4.24.3"
     "fsevents" "~2.3.2"
 
 "safe-array-concat@^1.1.2":
