@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.3",
-    "bun": "^1.2.1",
+    "bun": "^1.2.2",
     "eslint": "^9.13.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
