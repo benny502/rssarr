@@ -1,4 +1,4 @@
-FROM oven/bun:1 AS builder
+FROM oven/bun:latest AS builder
 WORKDIR /app
 
 COPY package.json bun.lockb yarn.lock index.html ./
