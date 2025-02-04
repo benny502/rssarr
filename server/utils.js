@@ -55,10 +55,14 @@ export const fuzzyMatch = (query, title) => {
  const queryWords = normalize(query);
  const titleWords = normalize(title);
 
- // 3. 检查标题是否包含所有查询词
- return queryWords.every(word => 
-   titleWords.some(titleWord => titleWord.includes(word))
- );
+ // 3. 拼起查询词
+ const queryStr = queryWords.join('');
+ console.log(queryStr);
+ const titleStr = titleWords.join('');
+ console.log(titleStr);
+
+ // 3. 检查标题是否包含查询词
+ return titleStr.includes(queryStr)
 }
 
 export const processItems = async (items, rules, req, isMikan) => {
@@ -137,7 +141,7 @@ export const processItems = async (items, rules, req, isMikan) => {
   }
 
   if (processedItems.length === 0) {
-    //processedItems.push(createPlaceholderItem());
+    processedItems.push(createPlaceholderItem());
   }
 
   return processedItems;

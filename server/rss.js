@@ -27,16 +27,6 @@ const route = async (req, res) => {
       pattern: new RegExp(`^${pattern}$`),
       ...rest,
     }));
-    const releaseGroup = /^[\[【](?<subgroup>[^\]】]+?)[\]】].*$/;
-
-    // trackers for magnet
-    const trackers = new URLSearchParams();
-    trackers.append("tr", "http://t.acg.rip:6699/announce");
-    trackers.append("tr", "http://nyaa.tracker.wf:7777/announce");
-    trackers.append("tr", "https://tr.bangumi.moe:9696/announce");
-    trackers.append("tr", "https://tr.bangumi.moe:6969/announce");
-    trackers.append("tr", "http://open.acgnxtracker.com/announce");
-    trackers.append("tr", "https://open.acgnxtracker.com/announce");
 
     const items = await processItems(
       result.rss.channel[0].item,

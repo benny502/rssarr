@@ -50,12 +50,6 @@ const torznabRoute = async (req, res) => {
                 subcat: [
                   { $: { id: "5030", name: "TV/HD" } }
                 ]
-              },
-              { 
-                $: { id: "2000", name: "Movies" },
-                subcat: [
-                  { $: { id: "2010", name: "Movies/Foreign" } }
-                ]
               }
             ]
           }
@@ -70,6 +64,7 @@ const torznabRoute = async (req, res) => {
     );
     
     const result = await parser.parseStringPromise(xmlStr);
+    console.log(result)
 
     const host = rss_url.split('/')[0];
     const isMikan = host.includes('mikan');
@@ -80,7 +75,6 @@ const torznabRoute = async (req, res) => {
       pattern: new RegExp(`^${pattern}$`),
       ...rest,
     }));
-    const releaseGroup = /^[\[【](?<subgroup>[^\]】]+?)[\]】].*$/;
 
     
     // Process items using shared logic
@@ -90,6 +84,7 @@ const torznabRoute = async (req, res) => {
       req,
       isMikan
     );
+
 
     // Filter items based on query parameters
     const filteredItems = items
