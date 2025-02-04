@@ -1,7 +1,7 @@
 FROM oven/bun:latest AS builder
 WORKDIR /app
 
-COPY package.json bun.lockb yarn.lock index.html ./
+COPY package.json bun.lockb bun.lock yarn.lock index.html ./
 COPY public ./public
 COPY server ./server
 COPY src ./src
