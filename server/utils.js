@@ -57,9 +57,7 @@ export const fuzzyMatch = (query, title) => {
 
  // 3. 拼起查询词
  const queryStr = queryWords.join('');
- console.log(queryStr);
  const titleStr = titleWords.join('');
- console.log(titleStr);
 
  // 3. 检查标题是否包含查询词
  return titleStr.includes(queryStr)
