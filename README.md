@@ -1,3 +1,8 @@
+# 新增 torznab支持
+
+在原项目基础上加入了Torznab支持，以方便在sonarr等平台中直接搜索，现在可以把转换后的rss像一个indexer一样直接加入sonarr。
+在原项目的proxy按钮旁边新增torznab按钮，点击可以直接复制转换后的torznab链接，其他使用方式请参照原项目
+
 # Rssarr (原 Mikanarr)
 
 *Rssarr* 由 *RSS* 与 *Sonarr* 混合而成，负责打通两者之间的桥梁，作为自动下载动画的关键一步存在。
